@@ -25,7 +25,10 @@ public class StageResultManager : MonoBehaviour {
 
 	//ステージ失敗
 	public static void FaileStage(string aStageName) {
-		setStageResult(aStageName, false);
+		//一度クリアしたステージは失敗してもなにもしない
+		if(getStageResult(aStageName) == false) {
+			setStageResult(aStageName, false);
+		}
 	}
 
 	//ステージクリア情報保存
@@ -33,6 +36,14 @@ public class StageResultManager : MonoBehaviour {
 		if(stageResults.ContainsKey(aStageName)) {
 			stageResults[aStageName] = aIsSuccess;
 		}
+	}
+
+	//ステージクリア情報取得
+	static bool getStageResult(string aStageName) {
+		if(stageResults.ContainsKey(aStageName)) {
+			return stageResults[aStageName];
+		}
+		return false;
 	}
 		
 }
