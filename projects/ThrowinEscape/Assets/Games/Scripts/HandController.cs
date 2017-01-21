@@ -130,7 +130,10 @@ public class HandController : MonoBehaviour
 				//相手がTeatureBoxだったとき
 				if (otherTag == "StageSelectObj")
 				{
+					OpenTreatureBox treatureBox = other.gameObject.GetComponent<OpenTreatureBox>();
 
+					if (treatureBox == null) Debug.LogError("OpenTreatureBox component nothing");
+					treatureBox.Open();
 				}
 			}
 		}
