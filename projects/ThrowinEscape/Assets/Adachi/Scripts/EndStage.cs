@@ -15,6 +15,7 @@ public class EndStage : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		updateTimer();
 		if(isTimeOver()) {
 			StageResultManager.FaileStage(gameObject.name);
 			titleCsObj.Confirm();
@@ -25,8 +26,14 @@ public class EndStage : MonoBehaviour {
 		}
 	}
 
+	//タイマーカウントアップ
+	void updateTimer() {
+		timeCounter += Time.deltaTime;
+	}
+
 	//時間オーバー
 	bool isTimeOver() {
+		Debug.Log("time " + timeCounter);
 		return (timeCounter > TIME_OUT_SECONDS);
 	}
 
