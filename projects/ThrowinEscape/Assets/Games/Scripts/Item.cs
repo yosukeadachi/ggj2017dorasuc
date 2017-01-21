@@ -6,12 +6,14 @@ public class Item : MonoBehaviour
 {
 	bool m_grabbed = false;
 	
-	HandController grabbedHand;
+	HandController grabbedHand; //not using
 	
 	Rigidbody m_rig;
 	public bool canGrab = true;
 
 	public bool isGrab { get { return m_grabbed; } }
+
+	Transform m_originParent;
 
 	void Awake()
 	{
@@ -20,17 +22,10 @@ public class Item : MonoBehaviour
 
 	}
 
-	void Start()
-	{
-
-	}
-
 	void Update()
 	{
-		
-
 		// 遠くに行ったら消す
-		if (transform.position.magnitude > 20f)
+		if (transform.position.magnitude > 30f)
 		{
 			Destroy(gameObject);
 		}
@@ -49,6 +44,8 @@ public class Item : MonoBehaviour
 	{
 		m_grabbed = true;
 		grabbedHand = hand;
+
+		m_originParent = transform.parent;
 	}
 
 	/// <summary>
@@ -58,5 +55,7 @@ public class Item : MonoBehaviour
 	{
 		m_grabbed = false;
 		grabbedHand = null;
+
+		transform.SetParent(m_originParent);
 	}
 }

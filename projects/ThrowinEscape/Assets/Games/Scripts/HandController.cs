@@ -7,10 +7,6 @@ public class HandController : MonoBehaviour
 	SteamVR_Controller.Device device;
 
 	Item m_myGrabItem;
-	/// <summary>
-	/// 以前いた階層に戻すために保持
-	/// </summary>
-	public Transform m_itemOriginTransform = null;
 
 	bool m_isGrab = false;
 
@@ -46,21 +42,23 @@ public class HandController : MonoBehaviour
 		//放す
 		if (m_isGrab && device.GetPressUp(SteamVR_Controller.ButtonMask.Trigger))
 		{
+			//speed
             Vector3 newVelocity = device.velocity;
             newVelocity.x *= -1;
             newVelocity.z *= -1;
 			m_myGrabItem.GetComponent<Rigidbody>().velocity = newVelocity;
+			//rotation
+			Vector3 newAngle = device.angularVelocity;
+			newAngle.x *= -1;
+			newAngle.z *= -1;
 			m_myGrabItem.GetComponent<Rigidbody>().angularVelocity = device.angularVelocity;
-			m_myGrabItem.GetComponent<Rigidbody>().isKinematic = false;
 
-			m_myGrabItem.transform.SetParent(null);//
+			m_myGrabItem.GetComponent<Rigidbody>().isKinematic = false;
 
 
 			m_myGrabItem.Release();
 			m_isGrab = false;
 			m_myGrabItem = null;
-			m_itemOriginTransform = null;
-
 		}
 
 		/*
@@ -91,7 +89,6 @@ public class HandController : MonoBehaviour
 			m_isGrab = true;
 			
 			m_myGrabItem = item;
-			m_itemOriginTransform = item.transform;
 
 			//rigidbody呼び出して重力を消す
 			item.GetComponent<Rigidbody>().isKinematic = true;
@@ -103,30 +100,39 @@ public class HandController : MonoBehaviour
 	void OnTriggerStay(Collider other)
 	{
 		Item hitItem = other.gameObject.GetComponent<Item>();
-		if (hitItem == null || hitItem.canGrab == false)
-		{
-			return;
-		}
+		string otherTag = other.gameObject.tag;
 
 		//つかむ
-		if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger) && !m_isGrab)
+		if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
 		{
-			//もし逆の手が同じものを持っていたら	HA・NA・SE！
-			if (m_otherHand.grabItem == hitItem)
+			//何ももっていないとき
+			if (!m_isGrab)
 			{
-				m_otherHand.ForceRelease();
-				m_itemOriginTransform = m_otherHand.m_itemOriginTransform;
+				//相手がItemだったとき
+				if (hitItem != null && hitItem.canGrab)
+				{
+					//もし逆の手が同じものを持っていたら	HA・NA・SE！
+					if (m_otherHand.grabItem == hitItem)
+					{
+						m_otherHand.ForceRelease();
+					}
+
+					hitItem.Grab(this);
+					m_isGrab = true;
+					m_myGrabItem = hitItem;
+
+					//rigidbody呼び出して重力を消す
+					other.GetComponent<Rigidbody>().isKinematic = true;
+					//触っている相手（other）を自分の子にする。
+					other.transform.SetParent(gameObject.transform);
+				}
+
+				//相手がTeatureBoxだったとき
+				if (otherTag == "StageSelectObj")
+				{
+
+				}
 			}
-
-			hitItem.Grab(this);
-			m_isGrab = true;
-			m_myGrabItem = hitItem;
-			m_itemOriginTransform = hitItem.transform.parent;
-
-			//rigidbody呼び出して重力を消す
-			other.GetComponent<Rigidbody>().isKinematic = true;
-			//触っている相手（other）を自分の子にする。
-			other.transform.SetParent(gameObject.transform);
 		}
 	}
 
@@ -145,13 +151,11 @@ public class HandController : MonoBehaviour
 			if (m_otherHand.grabItem == hitItem)
 			{
 				m_otherHand.ForceRelease();
-				m_itemOriginTransform = m_otherHand.m_itemOriginTransform;
 			}
 
 			hitItem.Grab(this);
 			m_isGrab = true;
 			m_myGrabItem = hitItem;
-			m_itemOriginTransform = hitItem.transform.parent;
 
 			//rigidbody呼び出して重力を消す
 			other.collider.GetComponent<Rigidbody>().isKinematic = true;
