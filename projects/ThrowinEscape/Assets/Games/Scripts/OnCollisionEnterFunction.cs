@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class OnCollisionEnterFunction : MonoBehaviour
 {
+	public SuccessCheckerBase checkerObj;
+
     [Tooltip("objectに物が当たった場合に、このObjを消滅するか")]
     /// <summary>
     /// このobjectに何か物が当たったら、このObjは消滅するかどうか
@@ -39,7 +41,7 @@ public class OnCollisionEnterFunction : MonoBehaviour
         {
             // ここでHit数をAddしてください
             Debug.Log("hit!");
-
+			checkerObj.addCount();
             //すぐ消えるので、Animetion後に消す場合は消してはいけません。
             if (isDestroy)
             {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class EndStage : MonoBehaviour {
 
 	public ConfirmStage titleCsObj;
+	public SuccessCheckerBase checkerObj;
 	float timeCounter = 0;
 	public const float TIME_OUT_SECONDS = 10.0f;
 
@@ -38,8 +39,7 @@ public class EndStage : MonoBehaviour {
 	}
 
 	//脱出成功
-	//@TODO ここを変更してください
 	bool isSuccessEscape() {
-		return false;
+		return checkerObj.isSuccess();
 	}
 }
