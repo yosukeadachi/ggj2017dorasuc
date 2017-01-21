@@ -16,6 +16,6 @@ public class StageBallonSuccessChecker : SuccessCheckerBase {
 
 	//風船ステージの成功条件
 	public override bool isSuccess() {
-		return (counter > 2);
+		return (counter >= 2);
 	}
 }
