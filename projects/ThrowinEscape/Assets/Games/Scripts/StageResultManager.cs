@@ -5,8 +5,7 @@ using UnityEngine;
 public class StageResultManager : MonoBehaviour {
 
 	static Dictionary<string, bool> stageResults = new Dictionary<string, bool> () {
-		{"Stage1", false},
-		{"Stage2", false}
+		{"StageBalloon", false},
 	};
 	// Use this for initialization
 	void Start () {
