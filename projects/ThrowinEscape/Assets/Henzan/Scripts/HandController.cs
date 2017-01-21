@@ -26,8 +26,6 @@ public class HandController : MonoBehaviour
 	/// </summary>
 	public Item grabItem { get { return m_myGrabItem; } }
 
-	public Animator AnimCtrl;
-
 	// Use this for initialization
 	void Awake()
 	{
