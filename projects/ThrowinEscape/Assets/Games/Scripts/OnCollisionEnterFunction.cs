@@ -34,6 +34,17 @@ public class OnCollisionEnterFunction : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("hitttttTrigger");
+        Debug.Log("hit other Tag: " + other.tag);
+        if (hitTag == "" || hitTag == other.tag)
+        {
+            // ここでHit数をAddしてください
+            Debug.Log("hit!");
+
+            //すぐ消えるので、Animetion後に消す場合は消してはいけません。
+            if (isDestroy)
+            {
+                Destroy(this.gameObject);
+            }
+        }
     }
 }
