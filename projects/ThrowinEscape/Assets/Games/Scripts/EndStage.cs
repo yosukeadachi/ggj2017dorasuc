@@ -33,7 +33,7 @@ public class EndStage : MonoBehaviour {
 
 	//時間オーバー
 	bool isTimeOver() {
-		Debug.Log("time " + timeCounter);
+//		Debug.Log("time " + timeCounter);
 		return (timeCounter > TIME_OUT_SECONDS);
 	}
 
