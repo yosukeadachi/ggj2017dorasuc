@@ -48,9 +48,9 @@ public class OnCollisionEnterFunction : MonoBehaviour
             //すぐ消えるので、Animetion後に消す場合は消してはいけません。
             if (isDestroy)
             {
-                var destroySound = GetComponentInChildren<SoundManager>();
+                var destroySound = GetComponentInParent<SoundManager>();
                 destroySound.PlaySoundOneShot();
-                Destroy(this.gameObject, destroySound.sound.length);
+                Destroy(this.gameObject);
             }
         }
     }
