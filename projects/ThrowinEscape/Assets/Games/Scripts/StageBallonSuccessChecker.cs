@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StageBallonSuccessChecker : SuccessCheckerBase {
 
+    const int successNum = 2;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -16,6 +18,6 @@ public class StageBallonSuccessChecker : SuccessCheckerBase {
 
 	//風船ステージの成功条件
 	public override bool isSuccess() {
-		return (counter >= 2);
+		return (counter >= successNum);
 	}
 }
