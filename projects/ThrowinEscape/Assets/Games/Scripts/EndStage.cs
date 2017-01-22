@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class EndStage : MonoBehaviour {
 
-	public ConfirmStage titleCsObj;
 	public SuccessCheckerBase checkerObj;
 	public GameObject doorGameObj;
-
+	public FadeCtrl.FadeController fadeWhiteCtrObj;
+	public FadeCtrl.FadeController fadeBlackCtrObj;
 
 	enum TimeStatus {
 		InGame,
@@ -17,7 +17,7 @@ public class EndStage : MonoBehaviour {
 	float gameTimeCounter = 0;
 	public const float GAEME_TIME_OUT_SECONDS = 10.0f;
 	float endEffectTimeCounter = 0;
-	public const float END_EFFECT_TIME_OUT_SECONDS = 10.0f;
+	public const float END_EFFECT_TIME_OUT_SECONDS = 3.0f;
 
 
 	// Use this for initialization
@@ -54,7 +54,7 @@ public class EndStage : MonoBehaviour {
 			if(isGameTimeOver()) {
 //				doorGameObj.GetComponent<Animator>().SetTrigger("OpenDoor");
 				StageResultManager.FaileStage(gameObject.name);
-				titleCsObj.Confirm();
+				fadeBlackCtrObj.StartFadeOut("Title");
 			}
 			else if(isSuccessEscape()) {
 				StageResultManager.SuccessStage(gameObject.name);
@@ -64,7 +64,7 @@ public class EndStage : MonoBehaviour {
 			break;
 		case TimeStatus.End:
 			if(endEffectTimeCounter > END_EFFECT_TIME_OUT_SECONDS) {
-				titleCsObj.Confirm();
+				fadeBlackCtrObj.StartFadeOut("Title");
 			}
 			break;
 		default:
