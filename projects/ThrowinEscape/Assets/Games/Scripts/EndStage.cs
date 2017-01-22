@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class EndStage : MonoBehaviour {
 
+    public ConfirmStage titleObj;
 	public SuccessCheckerBase checkerObj;
 	public GameObject doorGameObj;
-	public FadeCtrl.FadeController fadeWhiteCtrObj;
-	public FadeCtrl.FadeController fadeBlackCtrObj;
 
 	enum TimeStatus {
 		InGame,
@@ -16,15 +16,12 @@ public class EndStage : MonoBehaviour {
 	TimeStatus timeStatus = TimeStatus.InGame;
 	float gameTimeCounter = 0;
 	public const float GAEME_TIME_OUT_SECONDS = 10.0f;
-	float endEffectTimeCounter = 0;
-	public const float END_EFFECT_TIME_OUT_SECONDS = 3.0f;
 
 
 	// Use this for initialization
 	void Start () {
 		timeStatus = TimeStatus.InGame;
 		gameTimeCounter = 0;	//memo: ０リセットトリガーは別でもたないとだめかも
-		endEffectTimeCounter = 0;
 	}
 	
 	// Update is called once per frame
@@ -40,7 +37,6 @@ public class EndStage : MonoBehaviour {
 			gameTimeCounter += Time.deltaTime;
 			break;
 		case TimeStatus.End:
-			endEffectTimeCounter += Time.deltaTime;
 			break;
 		default:
 			break;
@@ -52,28 +48,37 @@ public class EndStage : MonoBehaviour {
 		switch(timeStatus) {
 		case TimeStatus.InGame:
 			if(isGameTimeOver()) {
-//				doorGameObj.GetComponent<Animator>().SetTrigger("OpenDoor");
 				StageResultManager.FaileStage(gameObject.name);
-				fadeBlackCtrObj.StartFadeOut("Title");
-			}
+                SteamVR_Fade.Start(Color.black, 1.0f);
+                Invoke("toTitleScene", 2.0f);
+            }
 			else if(isSuccessEscape()) {
 				StageResultManager.SuccessStage(gameObject.name);
 				timeStatus = TimeStatus.End;
 				doorGameObj.GetComponent<Animator>().SetTrigger("OpenDoor");
-			}
-			break;
+                Invoke("toOk", 2.0f);
+            }
+            break;
 		case TimeStatus.End:
-			if(endEffectTimeCounter > END_EFFECT_TIME_OUT_SECONDS) {
-				fadeBlackCtrObj.StartFadeOut("Title");
-			}
-			break;
+            break;
 		default:
 			break;
 		}
 	}
 
-	//ゲーム時間オーバー
-	bool isGameTimeOver() {
+    void toOk()
+    {
+        SteamVR_Fade.Start(Color.white, 1.0f);
+        Invoke("toTitleScene", 2.0f);
+    }
+
+    void toTitleScene()
+    {
+        SceneManager.LoadScene("Title");
+    }
+
+    //ゲーム時間オーバー
+    bool isGameTimeOver() {
 //		Debug.Log("time " + timeCounter);
 		return (gameTimeCounter > GAEME_TIME_OUT_SECONDS);
 	}
