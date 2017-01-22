@@ -52,9 +52,9 @@ public class EndStage : MonoBehaviour {
 		switch(timeStatus) {
 		case TimeStatus.InGame:
 			if(isGameTimeOver()) {
-				doorGameObj.GetComponent<Animator>().SetTrigger("OpenDoor");
+//				doorGameObj.GetComponent<Animator>().SetTrigger("OpenDoor");
 				StageResultManager.FaileStage(gameObject.name);
-//				titleCsObj.Confirm();
+				titleCsObj.Confirm();
 			}
 			else if(isSuccessEscape()) {
 				StageResultManager.SuccessStage(gameObject.name);
