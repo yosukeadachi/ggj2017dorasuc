@@ -17,7 +17,6 @@ public class OpenTreatureBox : MonoBehaviour {
 	void Start () {
 		m_animator = GetComponent<Animator>();
 		isFallen = false;
-		Open();//Debug
 
 	}
 
