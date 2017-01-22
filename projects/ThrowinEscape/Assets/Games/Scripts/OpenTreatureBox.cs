@@ -6,10 +6,13 @@ public class OpenTreatureBox : MonoBehaviour {
 
 	Animator m_animator;
 
+	public FadeCtrl.FadeController m_fadeCtrl;
 
 	// Use this for initialization
 	void Start () {
 		m_animator = GetComponent<Animator>();
+
+
 	}
 
 	///*
@@ -28,6 +31,12 @@ public class OpenTreatureBox : MonoBehaviour {
 			m_animator.SetBool("isOpen", false);
 
 		}
+
+		if (Input.GetMouseButton(0))
+		{
+			Open();
+		}
+
 	}
 	//*/
 	public void Open()
@@ -40,8 +49,8 @@ public class OpenTreatureBox : MonoBehaviour {
 	IEnumerator AnimWait()
 	{
 		yield return new WaitForSeconds(1.1f);
-		
 
+		m_fadeCtrl.StartFadeOut(gameObject.name);
 	}
 
 	public void Close()
