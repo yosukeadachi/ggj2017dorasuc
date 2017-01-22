@@ -1,18 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class OpenTreatureBox : MonoBehaviour {
 
-	Animator m_animator;
+	public GameObject roomObj;
+	public GameObject floor1Obj;
+	public GameObject floor2Obj;
+	public float fallSpeed;
+	bool isFallen;
 
-	public FadeCtrl.FadeController m_fadeCtrl;
+	Animator m_animator;
 
 	// Use this for initialization
 	void Start () {
 		m_animator = GetComponent<Animator>();
+		isFallen = false;
+		Open();//Debug
 
+	}
 
+	void Update() {
+		if(isFallen) {
+			var vel = Vector3.zero;
+			vel.y = fallSpeed;
+			roomObj.transform.position += vel;
+		}
 	}
 
 	/*
@@ -43,14 +57,16 @@ public class OpenTreatureBox : MonoBehaviour {
 	{
 		m_animator.SetBool("isOpen", true);
 
-		StartCoroutine(AnimWait());
+		SteamVR_Fade.Start(Color.white, 3.0f);
+		floor1Obj.GetComponent<Animator>().SetTrigger("DoOpenFloor1");
+		floor2Obj.GetComponent<Animator>().SetTrigger("DoOpenFloor2");
+		isFallen = true;
+		Invoke("StartStageBalloon",3.0f);
 	}
 
-	IEnumerator AnimWait()
+	void StartStageBalloon()
 	{
-		yield return new WaitForSeconds(1.1f);
-
-		m_fadeCtrl.StartFadeOut(gameObject.name);
+		SceneManager.LoadScene("StageBalloon");
 	}
 
 	public void Close()
