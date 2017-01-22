@@ -93,6 +93,10 @@
 				FadeImage.enabled = true;
 
 			}
+			else
+			{
+				alpha = 0f;
+			}
 		}
 
 		void Update()
@@ -138,6 +142,8 @@
 					if (FadeOutMethod != null) FadeOutMethod();
 				}
 			}
+
+
 		}
 
 		private void FadeIn(Image image)
@@ -190,6 +196,8 @@
 		{
 			FadeImage.enabled = true;
 			fadeModeStatus = FadeMode.FadeIn;
+
+			alpha = 1f;
 		}
 
 		void sceneChange()
@@ -206,6 +214,8 @@
 
 			FadeImage.enabled = true;
 			fadeModeStatus = FadeMode.FadeOut;
+
+			alpha = 0f;
 		}
 
 		// シーン遷移を行わないフェードアウトスタート　ただしDelegateによる任意の関数を複数実行可能。
@@ -218,6 +228,8 @@
 
 			FadeImage.enabled = true;
 			fadeModeStatus = FadeMode.FadeOut;
+
+			alpha = 0f;
 		}
 
 		public void StartFadeOutToAlpha(FadeStopAlphaClass argFadeOutData)
@@ -228,6 +240,8 @@
 
 			FadeImage.enabled = true;
 			fadeModeStatus = FadeMode.FadeOut;
+
+			alpha = 0f;
 		}
 
 		/* FadeInAndOut
@@ -241,6 +255,8 @@
 			FadeImage.enabled = true;
 			fadeModeStatus = FadeMode.FadeOn;
 			enableAlphaTop = false;
+
+			alpha = 0f;
 		}
 	}
 }
