@@ -13,6 +13,5 @@ public class Balloon : MonoBehaviour {
         var vel = Vector3.zero;
         vel.y = speed;
         transform.position += vel;
-
     }
 }
