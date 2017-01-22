@@ -20,7 +20,7 @@ public class OnCollisionEnterFunction : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log("hit other Tag: " + other.collider.tag);
+        Debug.Log("hit other Tag: " + other.collider.gameObject.tag);
         if (hitTag == "" || hitTag == other.collider.tag)
         {
             // ここでHit数をAddしてください
@@ -29,7 +29,10 @@ public class OnCollisionEnterFunction : MonoBehaviour
             //すぐ消えるので、Animetion後に消す場合は消してはいけません。
             if (isDestroy)
             {
-                Destroy(this.gameObject);
+                // 当たったら音を鳴らしてからdestroyします
+                var destroySound = GetComponentInChildren<SoundManager>();
+                destroySound.PlaySoundOneShot();
+                Destroy(this.gameObject, destroySound.sound.length);
             }
         }
     }
@@ -45,7 +48,9 @@ public class OnCollisionEnterFunction : MonoBehaviour
             //すぐ消えるので、Animetion後に消す場合は消してはいけません。
             if (isDestroy)
             {
-                Destroy(this.gameObject);
+                var destroySound = GetComponentInChildren<SoundManager>();
+                destroySound.PlaySoundOneShot();
+                Destroy(this.gameObject, destroySound.sound.length);
             }
         }
     }
