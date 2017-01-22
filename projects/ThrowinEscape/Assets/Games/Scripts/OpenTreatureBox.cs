@@ -15,7 +15,7 @@ public class OpenTreatureBox : MonoBehaviour {
 
 	}
 
-	///*
+	/*
 	float timer = 0f;	
 	// Update is called once per frame
 	void Update () {
